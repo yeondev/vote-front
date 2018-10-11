@@ -89,7 +89,7 @@ export default {
       }
 
       this.loading = true
-      this.$http.post(`http://192.168.0.6:3000/api/v1/login`, {
+      this.$http.post(`http://back-vote.herokuapp.com/api/v1/login`, {
         email: this.loginForm.email,
         password: this.loginForm.password
       }).then((response) => {

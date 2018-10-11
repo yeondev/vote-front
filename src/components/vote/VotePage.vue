@@ -22,7 +22,10 @@
                v-for="item in Items"
                v-bind:key="item.itemid"
                v-bind:content="item.content">
-            <el-checkbox v-model="item.voted" border size="medium">{{item.content}}</el-checkbox>
+            <el-checkbox v-model="item.voted"
+                         @change="checkEvent(item)"
+                         border size="medium">{{item.content}} </el-checkbox>
+            <el-tag>{{item.count}}</el-tag>
           </div>
         </el-card>
 
@@ -115,13 +118,26 @@ export default {
     }
   },
   methods: {
+    checkEvent: function (item) {
+      if (item.voted === true) {
+        item.count++
+      } else if (item.voted === false) {
+        item.count--
+      }
+    },
     getItemList: function () {
-      this.$http.get(`http://192.168.0.6:3000/api/v1/votes/` + this.$route.params['id'])
+      this.$http.get(`http://back-vote.herokuapp.com/api/v1/votes/` + this.$route.params['id'])
         .then((response) => {
           console.log(response)
           if (response.status === 200) {
+            this.Items = []
             for (let item of response.data.vote.items) {
-              this.Items.push({itemid: item.id, content: item.content, voted: item.voted})
+              this.Items.push({
+                itemid: item.id,
+                content: item.content,
+                voted: item.voted,
+                count: item.voted_count
+              })
             }
             this.dataForm.title = response.data.vote.title
           }
@@ -163,7 +179,7 @@ export default {
         }
       }
       this.registLoading = true
-      this.$http.post(`http://192.168.0.6:3000/api/v1/votes/` + this.$route.params['id'] + `/do`, {
+      this.$http.post(`http://back-vote.herokuapp.com/api/v1/votes/` + this.$route.params['id'] + `/do`, {
         item_ids: itemArray
       })
         .then((response) => {
@@ -179,7 +195,7 @@ export default {
             this.callMessage('저희 본의는 아닌데 투표 처리 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.ERROR)
           } else if (this.validated.isSuccessRegist) {
             this.callMessage('투표가 완료되었습니다.', this.Const.SUCCESS)
-          // todo: 추후처리
+            this.getItemList()
           } else if (!this.validated.isSuccessRegist) {
             this.callMessage('어떤 이유인지, 투표에 실패하였습니다.. ', this.Const.WARNING)
           }

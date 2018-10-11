@@ -34,7 +34,6 @@
         </el-card>
 
         <el-card>
-          <!--TODO: 투표항목 이 없을경우 3개까지 생성 -->
           <ul v-if="!modes.isInsertMode">
             <li
               v-for="(item, index) in Items"
@@ -146,7 +145,6 @@
 </template>
 
 <script>
-import Urls from '@/components/source/parts/Urls'
 
 export default {
   data () {
@@ -219,7 +217,7 @@ export default {
         itemArray.push({content: item.title})
       }
       this.registLoading = true
-      this.$http.post(`http://192.168.0.6:3000/api/v1/votes`, {
+      this.$http.post(`http://back-vote.herokuapp.com/api/v1/votes`, {
         title: this.dataForm.title,
         password: this.dataForm.password,
         start_date: '', // TODO: 추후추가
