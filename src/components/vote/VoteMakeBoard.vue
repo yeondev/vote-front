@@ -175,11 +175,6 @@ export default {
         isSuccessRegist: false,
         isConnectError: false
       },
-      Const: { // todo: move to const
-        SUCCESS: 'success',
-        WARNING: 'warning',
-        ERROR: 'error'
-      },
       registLoading: false,
       deletedStore: [],
       Items: []
@@ -238,26 +233,26 @@ export default {
         }).finally((response) => {
           console.log(response)
           if (this.validated.isConnectError) {
-            this.callMessage('저희 본의는 아닌데 투표 생성 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.ERROR)
+            this.callMessage('저희 본의는 아닌데 투표 생성 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.MESSAGE_LEVEL.ERROR)
           } else if (this.validated.isSuccessRegist) {
-            this.callMessage('투표가 생성되었습니다.', this.Const.SUCCESS)
+            this.callMessage('투표가 생성되었습니다.', this.Const.MESSAGE_LEVEL.SUCCESS)
             // todo: 추후처리
           } else if (!this.validated.isSuccessRegist) {
-            this.callMessage('어떤 이유인지, 회원 가입을 실패했습니다.. ', this.Const.WARNING)
+            this.callMessage('어떤 이유인지, 회원 가입을 실패했습니다.. ', this.Const.MESSAGE_LEVEL.WARNING)
           }
           this.registLoading = false
         })
     },
     checkPassword: function () {
       if (this.dataForm.password === '') {
-        this.callMessage('?? 패스워드가 없으면 로그인을 할 수가 없으세요!', this.Const.WARNING)
+        this.callMessage('?? 패스워드가 없으면 로그인을 할 수가 없으세요!', this.Const.MESSAGE_LEVEL.WARNING)
         this.validated.password = false
       } else {
         this.validated.password = true
       }
     },
     callMessage: function (message, pattern) {
-      if (pattern === this.Const.ERROR) {
+      if (pattern === this.Const.MESSAGE_LEVEL.ERROR) {
         this.$message.error(message)
       } else {
         this.$message({

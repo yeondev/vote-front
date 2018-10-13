@@ -12,6 +12,7 @@
 <script>
 import Urls from '@/components/source/parts/Urls'
 import LogIn from '@/components/auth/LogIn'
+import HttpStatus from 'http-status-codes'
 
 export default {
   name: 'MainBoard',
@@ -42,12 +43,13 @@ export default {
       // }
       const status = response.status
       switch (status) {
-        case 200: // todo: to be const
+        case HttpStatus.OK:
           // todo: to main
           this.$router.push('/vote/dashboard')
           break
-        // case 401: // todo: to be const
+        case HttpStatus.UNAUTHORIZED:
           // todo: to login
+          break
         default:
           // this.$router.push('/login')
       }

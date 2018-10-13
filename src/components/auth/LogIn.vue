@@ -28,6 +28,8 @@
 
 <script>
 import Urls from '@/components/source/parts/Urls'
+import HttpStatus from 'http-status-codes'
+
 export default {
   data: function () {
     return {
@@ -37,11 +39,6 @@ export default {
       },
       urls: {
         register: Urls.register.path
-      },
-      Const: { // todo: move to const
-        SUCCESS: 'success',
-        WARNING: 'warning',
-        ERROR: 'error'
       },
       validated: {
         isConnectError: false
@@ -53,20 +50,18 @@ export default {
     afterProcess: function (response) {
       console.log('begin afterProcess : ', response)
       switch (response.status) {
-        case 200:// todo: to be const
-          localStorage.setItem('user-token', response.headers.authorization) // store the token in localstorage
+        case HttpStatus.OK:
+          localStorage.setItem('user-token', response.headers['authorization']) // store the token in local-storage
           break
-        case 401:// todo: to be const
-          this.$message({message: '인증에 실패하였습니다!', type: this.Const.WARNING})
+        case HttpStatus.UNAUTHORIZED:
+          this.$message({message: '인증에 실패하였습니다!', type: this.Const.MESSAGE_LEVEL.WARNING})
           break
-        case 403:
+        case HttpStatus.FORBIDDEN:
           const responseCode = response.data.message
           if (responseCode === '1') {
-            // todo: to be const
-            this.$message({message: '인증 메일을 확인하신 후 인증을 완료해주세요!', type: this.Const.WARNING})
+            this.$message({message: '인증 메일을 확인하신 후 인증을 완료해주세요!', type: this.Const.MESSAGE_LEVEL.WARNING})
           } else if (responseCode === '2') {
-            // todo : to be  const
-            this.$message({message: '인증메일이 만료된 계정입니다. 다시 한번 인증메일을 발송하였으니 확인하신 후 인증을 완료해주세요!', type: this.Const.WARNING})
+            this.$message({message: '인증메일이 만료된 계정입니다. 다시 한번 인증메일을 발송하였으니 확인하신 후 인증을 완료해주세요!', type: this.Const.MESSAGE_LEVEL.WARNING})
             // todo : 인증메일 재배송요청
           }
           break
@@ -80,16 +75,15 @@ export default {
     },
     doLogIn: function () {
       if (!this.loginForm.email) {
-        this.$message({message: '아이디를 입력해주세요.', type: this.Const.WARNING})
+        this.$message({message: '아이디를 입력해주세요.', type: this.Const.MESSAGE_LEVEL.WARNING})
         return
       }
       if (!this.loginForm.password) {
-        this.$message({message: '패스워드를 입력해주세요.', type: this.Const.WARNING})
+        this.$message({message: '패스워드를 입력해주세요.', type: this.Const.MESSAGE_LEVEL.WARNING})
         return
       }
-
       this.loading = true
-      this.$http.post(`http://back-vote.herokuapp.com/api/v1/login`, {
+      this.$http.post(this.Const.API_URL.dev + `login`, {
         email: this.loginForm.email,
         password: this.loginForm.password
       }).then((response) => {
@@ -98,7 +92,7 @@ export default {
         this.afterProcess(err.response)
       }).finally(() => {
         if (this.validated.isConnectError) {
-          this.$message({message: '저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', type: this.Const.ERROR})
+          this.$message({message: '저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', type: this.Const.MESSAGE_LEVEL.ERROR})
         }
         this.loading = false
       })

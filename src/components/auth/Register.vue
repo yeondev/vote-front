@@ -68,11 +68,6 @@ export default {
         passwordConfirm: '',
         email: ''
       },
-      Const: { // todo: move to const
-        SUCCESS: 'success',
-        WARNING: 'warning',
-        ERROR: 'error'
-      },
       validated: {
         username: false,
         password: false,
@@ -100,7 +95,7 @@ export default {
      */
     checkEmailAvailable: function () {
       if (!this.validated.isSafeEmail || !this.validated.email) {
-        this.callMessage('데이터가 뭔가 이상한데.. 입력한 정보를 다시 확인해보시겠어요?', this.Const.WARNING)
+        this.callMessage('데이터가 뭔가 이상한데.. 입력한 정보를 다시 확인해보시겠어요?', this.Const.MESSAGE_LEVEL.WARNING)
         return
       }
       // 요청
@@ -116,11 +111,11 @@ export default {
         }).finally((response) => {
           console.log(response)
           if (this.validated.isConnectError) {
-            this.callMessage('저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.ERROR)
+            this.callMessage('저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.MESSAGE_LEVEL.ERROR)
           } else if (this.validated.isEmailVerified && this.validated.email) {
-            this.callMessage('이 이메일 주소는 사용 가능해요!', this.Const.SUCCESS)
+            this.callMessage('이 이메일 주소는 사용 가능해요!', this.Const.MESSAGE_LEVEL.SUCCESS)
           } else if (this.validated.isSentVerifyCheck && !this.validated.isEmailVerified) {
-            this.callMessage('이메일 주소가 왜인지 이미 등록되어 있어요. :( ', this.Const.WARNING)
+            this.callMessage('이메일 주소가 왜인지 이미 등록되어 있어요. :( ', this.Const.MESSAGE_LEVEL.WARNING)
           }
           this.emailLoading = false
         })
@@ -129,7 +124,7 @@ export default {
       if (!this.validated.isSentVerifyCheck ||
         !this.validated.password || !this.validated.username || !this.validated.email) {
         console.log(this.validated.isSentVerifyCheck, this.validated.password, this.validated.username, this.validated.email)
-        this.callMessage('데이터가 뭔가 이상한데.. 입력한 정보를 다시 확인해보시겠어요?', this.Const.WARNING)
+        this.callMessage('데이터가 뭔가 이상한데.. 입력한 정보를 다시 확인해보시겠어요?', this.Const.MESSAGE_LEVEL.WARNING)
         return
       }
       this.registLoading = true
@@ -148,18 +143,18 @@ export default {
         }).finally((response) => {
           console.log(response)
           if (this.validated.isConnectError) {
-            this.callMessage('저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.ERROR)
+            this.callMessage('저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.MESSAGE_LEVEL.ERROR)
           } else if (this.validated.isSuccessRegist) {
-            this.callMessage('입력하신 이메일로 인증 메일이 도착했을테니, 확인해주세요!', this.Const.SUCCESS)
+            this.callMessage('입력하신 이메일로 인증 메일이 도착했을테니, 확인해주세요!', this.Const.MESSAGE_LEVEL.SUCCESS)
           } else if (!this.validated.isSuccessRegist) {
-            this.callMessage('어떤 이유인지, 회원 가입을 실패했습니다.. ', this.Const.WARNING)
+            this.callMessage('어떤 이유인지, 회원 가입을 실패했습니다.. ', this.Const.MESSAGE_LEVEL.WARNING)
           }
           this.registLoading = false
         })
     },
     checkName: function () {
       if (this.dataForm.username === '') {
-        this.callMessage('이름/닉네임은 필수로 입력해야 합니다. ', this.Const.WARNING)
+        this.callMessage('이름/닉네임은 필수로 입력해야 합니다. ', this.Const.MESSAGE_LEVEL.WARNING)
         this.validated.username = false
       } else {
         this.validated.username = true
@@ -167,7 +162,7 @@ export default {
     },
     checkPassword: function () {
       if (this.dataForm.password === '') {
-        this.callMessage('?? 패스워드가 없으면 로그인을 할 수가 없으세요!', this.Const.WARNING)
+        this.callMessage('?? 패스워드가 없으면 로그인을 할 수가 없으세요!', this.Const.MESSAGE_LEVEL.WARNING)
         this.validated.password = false
       } else {
         this.validated.password = true
@@ -175,7 +170,7 @@ export default {
     },
     checkPasswordConfirm: function () {
       if (this.dataForm.password !== this.dataForm.passwordConfirm) {
-        this.callMessage('위에 입력하신 패스워드와 동일한 패스워드를 입력해주셔야 해요!', this.Const.WARNING)
+        this.callMessage('위에 입력하신 패스워드와 동일한 패스워드를 입력해주셔야 해요!', this.Const.MESSAGE_LEVEL.WARNING)
         this.validated.password = false
       }
     },
@@ -184,7 +179,7 @@ export default {
       return re.test(emailValue)
     },
     callMessage: function (message, pattern) {
-      if (pattern === this.Const.ERROR) {
+      if (pattern === this.Const.MESSAGE_LEVEL.ERROR) {
         this.$message.error(message)
       } else {
         this.$message({

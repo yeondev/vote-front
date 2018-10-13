@@ -9,9 +9,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import Const from './components/source/const.js'
 
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI, {locale})
+Vue.use(Const)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
