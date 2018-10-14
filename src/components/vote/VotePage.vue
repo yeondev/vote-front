@@ -6,42 +6,41 @@
 <!-- TODO: LAYOUT 조정 -->
 <template>
   <div>
-    <h2>투표하기</h2>
-        <el-card align="left">
-        <ul>
-          <el-row>
-            <el-col :span="10">
-              <span> {{ dataForm.title }}</span>
-            </el-col>
-          </el-row>
-        </ul>
-        </el-card>
+    <el-card align="left"
+             v-loading="loading"
+             element-loading-text="잠시만..."
+             element-loading-spinner="el-icon-loading"
+             element-loading-background="rgba(0, 0, 0, 0.8)">
+      <div slot="header">
+        {{ dataForm.title }}
+        <el-button style="float: right; padding: 8px"
+                   type="info"
+                   icon="el-icon-refresh" circle
+                   @click="reloadItemList()"></el-button>
+      </div>
+      <div style="margin-top: 5px"
+           v-for="item in items"
+           v-bind:key="item.itemid"
+           v-bind:content="item.content">
+        <el-checkbox v-model="item.voted"
+                     @change="checkVoteEvent(item)"
+                     border size="medium">{{item.content}} </el-checkbox>
+        <el-button @click="buttonVoteEvent(item)" circle>{{item.count}}</el-button>
+      </div>
+      </el-card>
 
-        <el-card align="left">
-          <div style="margin-top: 5px"
-               v-for="item in Items"
-               v-bind:key="item.itemid"
-               v-bind:content="item.content">
-            <el-checkbox v-model="item.voted"
-                         @change="checkEvent(item)"
-                         border size="medium">{{item.content}} </el-checkbox>
-            <el-tag>{{item.count}}</el-tag>
-          </div>
-        </el-card>
+      <el-card>
+      <ul>
+        <el-row :gutter="10" align="middle">
+          {{ dataForm.options.endDatetime }}
+        </el-row>
+      </ul>
 
-        <el-card>
-        <ul>
-          <el-row :gutter="10" align="middle">
-            {{ dataForm.options.endDatetime }}
-          </el-row>
-        </ul>
-
-        <ul>
-          <el-row :gutter="10" align="middle">
-            {{ dataForm.options.maxCount}}
-          </el-row>
-        </ul>
-
+      <ul>
+        <el-row :gutter="10" align="middle">
+          {{ dataForm.options.maxCount}}
+        </el-row>
+      </ul>
         <!-- 복수선택가능 -->
         <!--<ul>-->
           <!--<el-row :gutter="10">-->
@@ -72,7 +71,7 @@
             <!--</el-form-item>-->
           <!--</el-row>-->
         <!--</ul>-->
-        </el-card>
+      </el-card>
     <div class="form-group">
       <el-button @click="submitVote()">투표한다</el-button>
     </div>
@@ -107,27 +106,64 @@ export default {
         password: false,
         isConnectError: false
       },
-      registLoading: false,
+      loading: false,
       deletedStore: [],
-      Items: []
+      items: [],
+      oldItems: []
     }
   },
   methods: {
-    checkEvent: function (item) {
+    checkVoteEvent: function (item) {
+      console.log('checkVoteEvent begin =>', item)
       if (item.voted === true) {
         item.count++
       } else if (item.voted === false) {
         item.count--
       }
     },
+    buttonVoteEvent: function (item) {
+      console.log('buttonVoteEvent begin =>', item)
+      item.voted = !item.voted
+      this.checkVoteEvent(item)
+    },
+    reloadItemList: function () {
+      this.oldItems = this.Items
+      // TODO: call promise api
+      // 예전아이템과 비교
+      let isChanged = false
+      for (let item of this.Items) {
+        for (let oldItem of this.oldItems) {
+          if (item.itemid !== oldItem.itemid || item.content !== oldItem.content) {
+            isChanged = false
+            break
+          }
+        }
+      }
+
+      if (isChanged) {
+        // todo 예전아이템과 다르다면 더해줄 필요 없이 아이템이 새롭게 갱신되었습니다 라는 내용을 보여준다
+        this.callMessage('변경된 투표 내용이 있습니다. 확인해 보신 후 다시 투표해봅시다!', this.Const.MESSAGE_LEVEL.SUCCESS)
+      } else {
+        // todo 예전아이템과 같으면 체크했던것을 더한다
+        for (let item of this.Items) {
+          for (let oldItem of this.oldItems) {
+            if (item.itemid === oldItem.itemid && oldItem.voted) {
+              item.count++
+              item.voted = true
+            }
+          }
+        }
+      }
+    },
     getItemList: function () {
+      this.loading = true
       this.$http.get(`http://back-vote.herokuapp.com/api/v1/votes/` + this.$route.params['id'])
         .then((response) => {
           console.log(response)
           if (response.status === 200) {
-            this.Items = []
+            this.items = []
             for (let item of response.data.vote.items) {
-              this.Items.push({
+              this.items.push({
                 itemid: item.id,
                 content: item.content,
                 voted: item.voted,
@@ -144,19 +180,19 @@ export default {
           if (this.validated.isConnectError) {
             this.callMessage('저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.MESSAGE_LEVEL.ERROR)
           }
+          this.loading = false
         })
-
-      if (this.Items.length === 0) {
+      if (this.items.length === 0) {
 
       }
     },
     addItem: function () {
-      this.Items.push({itemid: 0, content: ''})
+      this.items.push({itemid: 0, content: ''})
     },
     removeItem: function (index) {
-      if (this.Items[index].itemid === 0) {
+      if (this.items[index].itemid === 0) {
         this.deletedStore.push(index)
-        // this.Items.splice(index, 1)
+        // this.items.splice(index, 1)
       } else {
         alert('not implemented api')
       }
@@ -168,7 +204,7 @@ export default {
     },
     submitVote: function () {
       let itemArray = []
-      for (let item of this.Items) {
+      for (let item of this.items) {
         if (item.voted) {
           itemArray.push(item.itemid)
         }
