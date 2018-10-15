@@ -212,7 +212,7 @@ export default {
         itemArray.push({content: item.title})
       }
       this.registLoading = true
-      this.$http.post(`http://back-vote.herokuapp.com/api/v1/votes`, {
+      this.$http.post(this.Const.API_URL.dev + `/votes`, {
         title: this.dataForm.title,
         password: this.dataForm.password,
         start_date: '', // TODO: 추후추가

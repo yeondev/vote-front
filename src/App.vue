@@ -1,12 +1,25 @@
 <template>
   <div id="app">
-    <router-view/>
+    <el-container>
+      <el-header>
+        <VoteHeaderBar />
+      </el-header>
+      <el-main >
+        <el-card body-style="max-width:1000px" align="center" shadow="hover">
+          <router-view/>
+        </el-card>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
+import VoteHeaderBar from '@/components/vote/VoteHeaderBar'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    VoteHeaderBar
+  }
 }
 </script>
 
@@ -17,6 +30,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 5px;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -83,7 +83,7 @@ export default {
         return
       }
       this.loading = true
-      this.$http.post(this.Const.API_URL.dev + `login`, {
+      this.$http.post(this.Const.API_URL.dev + `/login`, {
         email: this.loginForm.email,
         password: this.loginForm.password
       }).then((response) => {

@@ -10,7 +10,7 @@
              v-loading="loading"
              element-loading-text="잠시만..."
              element-loading-spinner="el-icon-loading"
-             element-loading-background="rgba(0, 0, 0, 0.8)">
+             element-loading-background="rgba(0, 255, 0, 0.3)">
       <div slot="header">
         {{ dataForm.title }}
         <el-button style="float: right; padding: 8px"
@@ -108,8 +108,7 @@ export default {
       },
       loading: false,
       deletedStore: [],
-      items: [],
-      oldItems: []
+      items: []
     }
   },
   methods: {
@@ -127,61 +126,35 @@ export default {
       this.checkVoteEvent(item)
     },
     reloadItemList: function () {
-      this.oldItems = this.Items
-      // TODO: call promise api
-      // 예전아이템과 비교
-      let isChanged = false
-      for (let item of this.Items) {
-        for (let oldItem of this.oldItems) {
-          if (item.itemid !== oldItem.itemid || item.content !== oldItem.content) {
-            isChanged = false
-            break
-          }
-        }
-      }
-
-      if (isChanged) {
-        // todo 예전아이템과 다르다면 더해줄 필요 없이 아이템이 새롭게 갱신되었습니다 라는 내용을 보여준다
-        this.callMessage('변경된 투표 내용이 있습니다. 확인해 보신 후 다시 투표해봅시다!', this.Const.MESSAGE_LEVEL.SUCCESS)
-      } else {
-        // todo 예전아이템과 같으면 체크했던것을 더한다
-        for (let item of this.Items) {
-          for (let oldItem of this.oldItems) {
-            if (item.itemid === oldItem.itemid && oldItem.voted) {
-              item.count++
-              item.voted = true
-            }
-          }
-        }
-      }
+      this.getItemList()
+    },
+    getItemListApi: function () {
+      return this.$http.get(this.Const.API_URL.dev + `/votes/` + this.$route.params['id'])
     },
     getItemList: function () {
       this.loading = true
-      this.$http.get(`http://back-vote.herokuapp.com/api/v1/votes/` + this.$route.params['id'])
-        .then((response) => {
-          console.log(response)
-          if (response.status === 200) {
-            this.items = []
-            for (let item of response.data.vote.items) {
-              this.items.push({
-                itemid: item.id,
-                content: item.content,
-                voted: item.voted,
-                count: item.voted_count
-              })
-            }
-            this.dataForm.title = response.data.vote.title
+      this.getItemListApi().then((response) => {
+        console.log('getItemList then => ', response)
+        if (response.status === 200) {
+          this.items = []
+          for (let item of response.data.vote.items) {
+            this.items.push({
+              itemid: item.id,
+              content: item.content,
+              voted: item.voted,
+              count: item.voted_count
+            })
           }
-        }).catch((err) => {
-          console.log(err)
-          this.validated.isConnectError = true
-        }).finally((response) => {
-          console.log(response)
+          this.dataForm.title = response.data.vote.title
           if (this.validated.isConnectError) {
             this.callMessage('저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', this.Const.MESSAGE_LEVEL.ERROR)
           }
           this.loading = false
-        })
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.validated.isConnectError = true
+      })
       if (this.items.length === 0) {
 
       }
@@ -210,7 +183,7 @@ export default {
         }
       }
       this.registLoading = true
-      this.$http.post(`http://back-vote.herokuapp.com/api/v1/votes/` + this.$route.params['id'] + `/do`, {
+      this.$http.post(this.Const.API_URL.dev + `/votes/` + this.$route.params['id'] + `/do`, {
         item_ids: itemArray
       })
         .then((response) => {

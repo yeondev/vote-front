@@ -1,6 +1,5 @@
 <template>
   <div>
-    <LogIn />
     <div>
     <router-link :to="urls.create">
       <el-button>로그인하지 않아도 새로운 투표를 만들 수 있습니다.</el-button>
@@ -11,14 +10,10 @@
 
 <script>
 import Urls from '@/components/source/parts/Urls'
-import LogIn from '@/components/auth/LogIn'
 import HttpStatus from 'http-status-codes'
 
 export default {
   name: 'MainBoard',
-  components: {
-    LogIn
-  },
   data () {
     return {
       urls: {
@@ -55,7 +50,7 @@ export default {
       }
     },
     loginCheck: function () {
-      this.$http.get(`http://back-vote.herokuapp.com/api/v1/login/check`)
+      this.$http.get(this.Const.API_URL.dev + `/login/check`)
         .then((response) => {
           this.afterProcess(response)
         }).catch((err) => {
