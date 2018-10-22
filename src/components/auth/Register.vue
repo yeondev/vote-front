@@ -100,7 +100,7 @@ export default {
       }
       // 요청
       this.emailLoading = true
-      this.$http.get(`http://back-vote.herokuapp.com/api/v1/registration/check?email=` + this.dataForm.email)
+      this.$http.get(this.Const.API_URL.dev + `/registration/check?email=` + this.dataForm.email)
         .then((response) => {
           console.log(response)
           this.validated.isEmailVerified = response.data.result
@@ -128,7 +128,7 @@ export default {
         return
       }
       this.registLoading = true
-      this.$http.post(`http://back-vote.herokuapp.com/api/v1/registration`, {
+      this.$http.post(this.Const.API_URL.dev + `/registration`, {
         email: this.dataForm.email,
         name: this.dataForm.username,
         password: this.dataForm.password

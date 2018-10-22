@@ -10,15 +10,24 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Const from './components/source/const.js'
+import VueI18n from 'vue-i18n'
+import messages from '@/lang/i18n'
 
+Vue.use(VueI18n)
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI, {locale})
 Vue.use(Const)
 Vue.config.productionTip = false
 
+const i18n = new VueI18n({
+  locale: 'ko',
+  messages
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  i18n: i18n,
   router,
   components: { App },
   template: '<App/>'
