@@ -1,0 +1,22 @@
+{
+  "ko": {
+    "message": {
+      "MESSAGE_1": "로그인하지 않아도 새로운 투표를 만들 수 있습니다.",
+      "subtitle": "서브 내용입니다."
+    }
+  },
+  "en": {
+    "message": {
+      "MESSAGE_1": "You can create a new vote without logging in.",
+      "title": "title",
+      "subtitle": "sub title!"
+    }
+  },
+  "jp": {
+    "message": {
+      "MESSAGE_1": "ログインしなくても新しい投票を作成出来ます！",
+      "title": "제목입니다.",
+      "subtitle": "서브 내용입니다."
+    }
+  }
+}
