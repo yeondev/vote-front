@@ -1,54 +1,55 @@
 <template>
   <div>
-    <h2>Register</h2>
     <el-form ref="form" :model="dataForm" label-width="80px"
              v-loading="registLoading"
-             element-loading-text="잠시만..."
+             element-loading-text="$t('message.MESSAGE_2')"
              element-loading-spinner="el-icon-loading"
              element-loading-background="rgba(0, 0, 0, 0.8)">
         <el-form-item label="E-mail" label-width="100px">
-          <el-col :span="10">
+          <el-col :span="20">
             <el-input
               v-loading="emailLoading"
-              element-loading-text="하고 있어요..."
               element-loading-spinner="el-icon-loading"
               element-loading-background="rgba(0, 0, 0, 0.8)"
-              placeholder="로그인 하실 때 사용하실 이메일 주소를 입력해주세요."
+              v-bind:placeholder="$t('message.MESSAGE_4')"
               v-model="dataForm.email"
               @keyup.enter.native="checkEmailAvailable()"
               @change="checkEmailAvailable()"></el-input>
           </el-col>
         </el-form-item>
-      <el-form-item label="이름(닉네임)" label-width="100px">
-        <el-col :span="10">
-          <el-input placeholder="사이트 내에서 사용하실 이름/닉네임을 입력해주세요."
+      <!-- 이름(닉네임) -->
+      <el-form-item v-bind:label="$t('message.WORD_3')" label-width="100px">
+        <el-col :span="20">
+          <el-input v-bind:placeholder="$t('message.MESSAGE_5')"
                     clearable
                     v-model="dataForm.username"
                     @change="checkName()"></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item label="비밀번호" label-width="100px">
-        <el-col :span="10">
+      <!-- 비밀번호  -->
+      <el-form-item v-bind:label="$t('message.WORD_4')" label-width="100px">
+        <el-col :span="20">
           <el-input
-              placeholder="앞으로 로그인 하실 때 사용하실 비밀번호를 입력해주세요."
+              v-bind:placeholder="$t('message.MESSAGE_6')"
               clearable v-model="dataForm.password"
               @change="checkPassword()"></el-input>
           <!--<input type="password" v-model="dataForm.password" name="password" class="form-control" :class="{ 'is-invalid': submitted && !password }" />-->
           <div v-show="submitted && !dataForm.password" class="invalid-feedback">Password is required</div>
         </el-col>
       </el-form-item>
-      <el-form-item label="비밀번호 확인" label-width="100px" >
-        <el-col :span="10">
+      <!-- 비밀번호 확인 -->
+      <el-form-item v-bind:label="$t('message.WORD_5')" label-width="100px" >
+        <el-col :span="20">
           <el-input
-            placeholder="위에 입력한 비밀번호를 한번 더 입력해주세요."
+            v-bind:placeholder="$t('message.MESSAGE_7')"
             clearable v-model="dataForm.passwordConfirm"
             @change="checkPasswordConfirm()"></el-input>
           <!--<input type="password" v-model="dataForm.passwordConfirm" name="password" class="form-control" :class="{ 'is-invalid': submitted && !password }" />-->
         </el-col>
       </el-form-item>
       <div class="form-group">
-        <button class="btn btn-primary" @click="requestRegistration()">등록한다</button>
-        {{msg}}
+        <!-- 등록하기 -->
+        <button class="btn btn-primary" @click="requestRegistration()">{{ $t('message.WORD_2') }}</button>
       </div>
     </el-form>
   </div>
@@ -58,7 +59,6 @@
 export default {
   data () {
     return {
-      msg: 'here is register page',
       submitted: false,
       emailLoading: false,
       registLoading: false,

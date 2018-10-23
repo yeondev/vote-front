@@ -2,7 +2,6 @@
   <div>
     <div>
     <router-link :to="urls.create">
-      <el-button>로그인하지 않아도 새로운 투표를 만들 수 있습니다.</el-button>
       <el-button>{{ $t("message.MESSAGE_1") }}</el-button>
     </router-link>
     </div>

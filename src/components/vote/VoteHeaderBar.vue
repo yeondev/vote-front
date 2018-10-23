@@ -5,17 +5,17 @@
 </style>
 <template>
   <div align="right">
-    <el-select v-model="$i18n.locale">
+    <el-select size="mini" v-model="$i18n.locale">
       <el-option v-for="localeInfo in localeTable"
                  :key="localeInfo.value"
                  :value="localeInfo.value"
                  :label="localeInfo.label"></el-option>
     </el-select>
     <router-link :to="Const.ROUTER_URLS.login">
-      <el-button size="mini">로그인</el-button>
+      <el-button size="mini">{{$t("message.WORD_1")}}</el-button>
     </router-link>
     <router-link :to="Const.ROUTER_URLS.register">
-      <el-button size="mini">등록하기</el-button>
+      <el-button size="mini">{{$t("message.WORD_2")}}</el-button>
     </router-link>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
           label: '한국어'
         },
         {
-          value: 'jp',
+          value: 'ja',
           label: '日本語'
         },
         {
