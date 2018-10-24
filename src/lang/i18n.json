@@ -8,11 +8,20 @@
       "MESSAGE_5": "사이트 내에서 사용하실 이름/닉네임을 입력해주세요.",
       "MESSAGE_6": "앞으로 로그인 하실 때 사용하실 비밀번호를 입력해주세요.",
       "MESSAGE_7": "위에 입력한 비밀번호를 한번 더 입력해주세요.",
+      "MESSAGE_8": "종료할 날짜와 시간을 선택해주세요.",
+      "MESSAGE_9": "Shift+Enter 를 누르면 투표항목을 추가할 수 있습니다 :)",
       "WORD_1": "로그인",
-      "WORD_2": "등록하기",
-      "WORD_3": "이름(닉네임)",
-      "WORD_4": "비밀번호",
-      "WORD_5": "비밀번호 확인"
+      "WORD_REGISTER": "등록하기",
+      "WORD_5": "비밀번호 확인",
+      "WORD_EMAIL": "이메일",
+      "WORD_PASSWORD": "패스워드",
+      "WORD_NAME_NICK": "이름(닉네임)",
+      "WORD_ID": "아이디",
+      "WORD_TITLE": "제목",
+      "WORD_ITEM_INPUT": "항목입력",
+      "WORD_ADD_ITEM": "항목 추가",
+      "WORD_END_DATE": "종료예정일자",
+      "WORD_MAX_ATTENDEE": "최대참여숫자"
     }
   },
   "en": {
@@ -24,11 +33,18 @@
       "MESSAGE_5": "Please enter a name to be used within the site.",
       "MESSAGE_6": "Please enter a password to be used when logging in from now on.",
       "MESSAGE_7": "Please enter the password you entered above once more.",
+      "MESSAGE_8": "Please select a date and time to end.",
       "WORD_1": "login",
-      "WORD_2": "register",
-      "WORD_3": "name",
-      "WORD_4": "password",
-      "WORD_5": "confirm"
+      "WORD_REGISTER": "register",
+      "WORD_5": "confirm",
+      "WORD_NAME_NICK": "name",
+      "WORD_PASSWORD": "password",
+      "WORD_ID": "ID",
+      "WORD_TITLE": "title",
+      "WORD_ITEM_INPUT": "enter item",
+      "WORD_ADD_ITEM": "add item",
+      "WORD_END_DATE": "End scheduled date",
+      "WORD_MAX_ATTENDEE": "limited number"
     }
   },
   "ja": {
@@ -40,11 +56,18 @@
       "MESSAGE_5": "サイト内で利用する名前を入力してください。",
       "MESSAGE_6": "パスワードを入力してください。",
       "MESSAGE_7": "パスワードをもう一回入力してください。",
+      "MESSAGE_8": "終了する日付と時間を選択してください。",
       "WORD_1": "ログイン",
-      "WORD_2": "会員登録",
-      "WORD_3": "名前",
-      "WORD_4": "パスワード",
-      "WORD_5": "パスワード確認"
+      "WORD_REGISTER": "会員登録",
+      "WORD_5": "パスワード確認",
+      "WORD_NAME_NICK": "名前",
+      "WORD_PASSWORD": "パスワード",
+      "WORD_ID": "ID",
+      "WORD_TITLE": "表題",
+      "WORD_ITEM_INPUT": "項目入力",
+      "WORD_ADD_ITEM": "項目の追加",
+      "WORD_END_DATE": "終了予定日付",
+      "WORD_MAX_ATTENDEE": "最大参加人数"
     }
   }
 }

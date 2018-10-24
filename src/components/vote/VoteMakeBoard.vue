@@ -6,10 +6,9 @@
 
 <template>
   <div>
-    <h2>투표 만들기</h2>
       <el-form ref="form" :model="dataForm" label-width="80px"
                v-loading="registLoading"
-               element-loading-text="잠시만..."
+               v-bind:element-loading-text="$t('message.MESSAGE_2')"
                element-loading-spinner="el-icon-loading"
                element-loading-background="rgba(0, 0, 0, 0.8)">
         <el-card>
@@ -17,17 +16,9 @@
           <el-row>
             <el-col :span="10">
               <el-input
-                placeholder="제목"
+                v-bind:placeholder="$t('message.WORD_TITLE')"
                 v-model="dataForm.title">
               </el-input>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="10"> <!--TODO 로그인시엔 옵셔너블-->
-              <el-input
-                placeholder="패스워드"
-                clearable v-model="dataForm.password"
-                @change="checkPassword()"></el-input>
             </el-col>
           </el-row>
         </ul>
@@ -51,8 +42,12 @@
                           v-bind:title="item.title"
                           v-on:remove="item.splice(index, 1)"
                           v-bind:class="{ deletedInput : deletedStore.includes(index) }"
-                          placeholder="항목입력"
-                          v-model="item.title"></el-input>
+                          v-bind:placeholder="$t('message.WORD_ITEM_INPUT')"
+                          v-model="item.title"
+                          v-on:keydown.tab.native="itemAddByTab(index, $event)"
+                          style="margin-bottom: 5px;"
+                          v-bind:ref="'inputItem_' + index"
+                          ></el-input>
               </el-col>
               <el-col :span="1">
                 <el-button v-if="!deletedStore.includes(index)"
@@ -69,9 +64,10 @@
                            plain></el-button>
               </el-col>
             </el-row>
+
             <el-row>
               <el-col :span="1">
-                <el-button @click="addItem">항목 추가</el-button>
+                  <el-button @click="addItem">{{ $t('message.WORD_ADD_ITEM')}}</el-button>
               </el-col>
             </el-row>
           </ul>
@@ -79,26 +75,34 @@
 
         <el-card>
         <ul>
+          <el-row>
+            <el-form-item v-bind:label="$t('message.WORD_PASSWORD')" label-width="120px">
+            <el-col :span="10"> <!--TODO 로그인시엔 옵셔너블-->
+              <el-input
+                class="input_m"
+                v-bind:placeholder="$t('message.WORD_PASSWORD')"
+                clearable v-model="dataForm.password"
+                @change="checkPassword()"></el-input>
+            </el-col>
+            </el-form-item>
+          </el-row>
           <el-row :gutter="10" align="middle">
-            <el-form-item label="종료예정일자" label-width="120px">
-            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
+            <el-form-item v-bind:label="$t('message.WORD_END_DATE')" label-width="120px">
+            <el-col :span="10">
               <el-date-picker
                 v-model="dataForm.options.endDatetime"
                 type="datetime"
-                size="small"
-                style="width:80%;"
-                placeholder="종료할 날짜와 시간을 선택해주세요."
+                size="large"
+                class="input_m"
+                v-bind:placeholder="$t('message.MESSAGE_8')"
                 default-time="00:00:00">
               </el-date-picker>
             </el-col>
             </el-form-item>
           </el-row>
-        </ul>
-
-        <ul>
           <el-row :gutter="10" align="middle">
-            <el-form-item label="최대참여숫자" label-width="120px">
-              <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
+            <el-form-item v-bind:label="$t('message.WORD_MAX_ATTENDEE')" label-width="120px">
+              <el-col :span="10" align="left">
                 <el-input-number v-model="dataForm.options.maxCount" :min="0"></el-input-number>
               </el-col>
             </el-form-item>
@@ -176,11 +180,18 @@ export default {
         isConnectError: false
       },
       registLoading: false,
+      isKeyDownShift: false,
       deletedStore: [],
       Items: []
     }
   },
   methods: {
+    itemAddByTab: function (index, e) {
+      if (index === this.Items.length - 1) {
+        e.preventDefault()
+        this.addItem()
+      }
+    },
     getItemList: function () {
       // TODO: api
       if (this.itemList.length === 0) {

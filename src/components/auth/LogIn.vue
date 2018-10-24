@@ -1,26 +1,25 @@
 <template>
   <div>
-    <h2>Login</h2>
     <el-form ref="form" :model="loginForm" label-width="80px" v-loading="loading">
-      <el-form-item label="email" label-width="100px">
+      <el-form-item v-bind:label="$t('message.WORD_EMAIL')" label-width="100px">
         <el-col :span="10">
           <el-input
-            placeholder="아이디"
+            v-bind:placeholder="$t('message.WORD_EMAIL')"
             v-model="loginForm.email"
             @keyup.enter.native="doLogIn()"></el-input>
         </el-col>
       </el-form-item>
-    <el-form-item label="password" label-width="100px">
+    <el-form-item v-bind:label="$t('message.WORD_PASSWORD')" label-width="100px">
         <el-col :span="10">
           <el-input
-            placeholder="패스워드"
+            v-bind:placeholder="$t('message.WORD_PASSWORD')"
             v-model="loginForm.password"
             @keyup.enter.native="doLogIn()"></el-input>
         </el-col>
       </el-form-item>
       <el-button @click="doLogIn()">Login</el-button>
       <router-link :to="urls.register">
-        <el-button>등록하기</el-button>
+        <el-button>{{ $t('message.WORD_REGISTER') }}</el-button>
       </router-link>
     </el-form>
   </div>
