@@ -2,6 +2,7 @@
   <div>
     <!-- TODO: 투표리스트 조회 후 표시 -->
     <span>만들어져있는 투표가 없습니다. 투표를 만들어볼까요!</span> <br>
+    <p></p>
     <router-link :to="urls.create">
       <el-button>투표 만들기</el-button>
     </router-link>

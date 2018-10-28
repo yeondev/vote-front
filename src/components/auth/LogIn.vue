@@ -1,16 +1,24 @@
 <template>
   <div>
     <el-form ref="form" :model="loginForm" label-width="80px" v-loading="loading">
-      <el-form-item v-bind:label="$t('message.WORD_EMAIL')" label-width="100px">
-        <el-col :span="10">
+      <el-form-item v-bind:label="$t('message.WORD_EMAIL')">
+        <el-col :xs="20"
+                :sm="16"
+                :md="14"
+                :lg="10"
+                :xl="6">
           <el-input
             v-bind:placeholder="$t('message.WORD_EMAIL')"
             v-model="loginForm.email"
             @keyup.enter.native="doLogIn()"></el-input>
         </el-col>
       </el-form-item>
-    <el-form-item v-bind:label="$t('message.WORD_PASSWORD')" label-width="100px">
-        <el-col :span="10">
+    <el-form-item v-bind:label="$t('message.WORD_PASSWORD')">
+        <el-col :xs="20"
+                :sm="16"
+                :md="14"
+                :lg="10"
+                :xl="6">
           <el-input
             v-bind:placeholder="$t('message.WORD_PASSWORD')"
             v-model="loginForm.password"
@@ -51,16 +59,18 @@ export default {
       switch (response.status) {
         case HttpStatus.OK:
           localStorage.setItem('user-token', response.headers['authorization']) // store the token in local-storage
+          this.getUserInfo()
           break
         case HttpStatus.UNAUTHORIZED:
-          this.$message({message: '인증에 실패하였습니다!', type: this.Const.MESSAGE_LEVEL.WARNING})
+          this.$message({message: this.$t('message.ERROR_MESSAGE_4'), type: this.Const.MESSAGE_LEVEL.WARNING})
           break
         case HttpStatus.FORBIDDEN:
           const responseCode = response.data.message
           if (responseCode === '1') {
-            this.$message({message: '인증 메일을 확인하신 후 인증을 완료해주세요!', type: this.Const.MESSAGE_LEVEL.WARNING})
+            this.$message({message: this.$t('message.MESSAGE_10'), type: this.Const.MESSAGE_LEVEL.WARNING})
+            // todo: 인증번호 입력 페이지 출력하기
           } else if (responseCode === '2') {
-            this.$message({message: '인증메일이 만료된 계정입니다. 다시 한번 인증메일을 발송하였으니 확인하신 후 인증을 완료해주세요!', type: this.Const.MESSAGE_LEVEL.WARNING})
+            this.$message({message: this.$t('message.MESSAGE_11'), type: this.Const.MESSAGE_LEVEL.WARNING})
             // todo : 인증메일 재배송요청
           }
           break
@@ -74,11 +84,11 @@ export default {
     },
     doLogIn: function () {
       if (!this.loginForm.email) {
-        this.$message({message: '아이디를 입력해주세요.', type: this.Const.MESSAGE_LEVEL.WARNING})
+        this.$message({message: this.$t('message.ERROR_MESSAGE_2'), type: this.Const.MESSAGE_LEVEL.WARNING})
         return
       }
       if (!this.loginForm.password) {
-        this.$message({message: '패스워드를 입력해주세요.', type: this.Const.MESSAGE_LEVEL.WARNING})
+        this.$message({message: this.$t('message.ERROR_MESSAGE_3'), type: this.Const.MESSAGE_LEVEL.WARNING})
         return
       }
       this.loading = true
@@ -89,12 +99,21 @@ export default {
         this.afterProcess(response)
       }).catch((err) => {
         this.afterProcess(err.response)
-      }).finally(() => {
-        if (this.validated.isConnectError) {
-          this.$message({message: '저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요? ', type: this.Const.MESSAGE_LEVEL.ERROR})
-        }
-        this.loading = false
-      })
+      }).finally(() => this.finalAction())
+    },
+    getUserInfo: function () {
+      this.$http.get(this.Const.API_URL.dev + `/user/me`)
+        .then((response) => {
+          console.log(response)
+        }).catch((err) => {
+          this.afterProcess(err.response)
+        }).finally(() => this.finalAction())
+    },
+    finalAction: function () {
+      if (this.validated.isConnectError) {
+        this.$message({message: this.$t('message.ERROR_MESSAGE_1'), type: this.Const.MESSAGE_LEVEL.ERROR})
+      }
+      this.loading = false
     }
   }
 }

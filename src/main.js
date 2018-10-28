@@ -19,15 +19,23 @@ Vue.use(ElementUI, {locale})
 Vue.use(Const)
 Vue.config.productionTip = false
 
+// user login token
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('user-token')
+
 const i18n = new VueI18n({
-  locale: 'ko',
+  locale: localStorage.getItem('user-locale') ? localStorage.getItem('user-locale') : 'ko',
   messages
 })
 
+const userInfo = ({
+  name: '',
+  isLogin: false
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   i18n: i18n,
+  userInfo: userInfo,
   router,
   components: { App },
   template: '<App/>'

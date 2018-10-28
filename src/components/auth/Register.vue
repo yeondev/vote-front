@@ -27,7 +27,7 @@
         </el-col>
       </el-form-item>
       <!-- 비밀번호  -->
-      <el-form-item v-bind:label="$t('message.PASSWORD')" label-width="100px">
+      <el-form-item v-bind:label="$t('message.WORD_PASSWORD')" label-width="100px">
         <el-col :span="20">
           <el-input
               v-bind:placeholder="$t('message.MESSAGE_6')"

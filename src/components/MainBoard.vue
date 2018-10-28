@@ -2,9 +2,10 @@
   <div>
     <div>
     <router-link :to="urls.create">
-      <el-button>{{ $t("message.MESSAGE_1") }}</el-button>
+      <el-button>{{ $t("message.WORD_MAKE_VOTE") }}</el-button>
     </router-link>
     </div>
+    <!--<span>{{ $t("message.MESSAGE_1") }}</span>-->
   </div>
 </template>
 
@@ -39,7 +40,6 @@ export default {
       const status = response.status
       switch (status) {
         case HttpStatus.OK:
-          // todo: to main
           this.$router.push('/vote/dashboard')
           break
         case HttpStatus.UNAUTHORIZED:

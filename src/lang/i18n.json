@@ -10,6 +10,12 @@
       "MESSAGE_7": "위에 입력한 비밀번호를 한번 더 입력해주세요.",
       "MESSAGE_8": "종료할 날짜와 시간을 선택해주세요.",
       "MESSAGE_9": "Shift+Enter 를 누르면 투표항목을 추가할 수 있습니다 :)",
+      "MESSAGE_10": "인증 메일을 확인하신 후 인증을 완료해주세요!",
+      "MESSAGE_11": "인증메일이 만료된 계정입니다. 다시 한번 인증메일을 발송하였으니 확인하신 후 인증을 완료해주세요!",
+      "ERROR_MESSAGE_1": "저희 본의는 아닌데 이메일 확인 시도 중에 에러가 발생했어요. 잠시 후에 다시 해보면 될 지도 모르는데 계속 안되면 운영자에게 문의해보시겠어요?",
+      "ERROR_MESSAGE_2": "아이디를 입력해주세요.",
+      "ERROR_MESSAGE_3": "패스워드를 입력해주세요.",
+      "ERROR_MESSAGE_4": "인증에 실패하였습니다!",
       "WORD_1": "로그인",
       "WORD_REGISTER": "등록하기",
       "WORD_5": "비밀번호 확인",
@@ -21,7 +27,9 @@
       "WORD_ITEM_INPUT": "항목입력",
       "WORD_ADD_ITEM": "항목 추가",
       "WORD_END_DATE": "종료예정일자",
-      "WORD_MAX_ATTENDEE": "최대참여숫자"
+      "WORD_MAX_ATTENDEE": "최대참여숫자",
+
+      "WORD_MAKE_VOTE": "투표 만들기"
     }
   },
   "en": {
@@ -37,6 +45,7 @@
       "WORD_1": "login",
       "WORD_REGISTER": "register",
       "WORD_5": "confirm",
+      "WORD_EMAIL": "e-mail",
       "WORD_NAME_NICK": "name",
       "WORD_PASSWORD": "password",
       "WORD_ID": "ID",
@@ -45,6 +54,7 @@
       "WORD_ADD_ITEM": "add item",
       "WORD_END_DATE": "End scheduled date",
       "WORD_MAX_ATTENDEE": "limited number"
+
     }
   },
   "ja": {
@@ -60,6 +70,7 @@
       "WORD_1": "ログイン",
       "WORD_REGISTER": "会員登録",
       "WORD_5": "パスワード確認",
+      "WORD_EMAIL": "メール",
       "WORD_NAME_NICK": "名前",
       "WORD_PASSWORD": "パスワード",
       "WORD_ID": "ID",

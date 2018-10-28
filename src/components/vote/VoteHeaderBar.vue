@@ -11,7 +11,7 @@
       </router-link>
     </div>
     <div align="right" style="float:right">
-      <el-select size="mini" v-model="$i18n.locale">
+      <el-select size="mini" style="width:100px" v-model="$i18n.locale" v-on:change="localeChange">
         <el-option v-for="localeInfo in localeTable"
                    :key="localeInfo.value"
                    :value="localeInfo.value"
@@ -47,6 +47,11 @@ export default {
           label: 'English'
         }
       ]
+    }
+  },
+  methods: {
+    localeChange: function (selectedLocale) {
+      localStorage.setItem('user-locale', selectedLocale)
     }
   }
 }
