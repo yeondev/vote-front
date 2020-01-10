@@ -10,9 +10,10 @@ export default {
         main: Urls.main.path
       },
       API_URL: {
-        // local: 'http://192.168.0.13:8080/api/v1',
-        local: 'http://back-vote.herokuapp.com/api/v1',
-        dev: 'https://back-vote.herokuapp.com/api/v1',
+        local: 'http://localhost:8081/api',
+        // local: 'http://back-vote.herokuapp.com/api/v1',
+        // dev: 'https://back-vote.herokuapp.com/api/v1',
+        dev: '/api/',
         prod: this.dev
       },
       MESSAGE_LEVEL: {

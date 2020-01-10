@@ -1,10 +1,14 @@
 <template>
   <div>
-    <div>
     <router-link :to="urls.create">
-      <el-button>{{ $t("message.WORD_MAKE_VOTE") }}</el-button>
+      <el-row>
+        <el-col :span="24">
+          <div>
+            <el-button >{{ $t("message.WORD_MAKE_VOTE") }}</el-button>
+          </div>
+        </el-col>
+      </el-row>
     </router-link>
-    </div>
     <!--<span>{{ $t("message.MESSAGE_1") }}</span>-->
   </div>
 </template>
@@ -62,5 +66,5 @@ export default {
 </script>
 
 <style scoped>
-
+  @import "../scss/layout.scss";
 </style>

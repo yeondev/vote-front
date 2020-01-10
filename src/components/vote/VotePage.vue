@@ -265,4 +265,5 @@ export default {
 
 <style scoped>
   @import "../../scss/common.scss";
+  @import "../../scss/layout.scss";
 </style>

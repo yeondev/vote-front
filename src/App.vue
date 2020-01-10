@@ -4,8 +4,8 @@
       <el-header>
         <VoteHeaderBar />
       </el-header>
-      <el-main >
-        <el-card body-style="max-width:1000px" align="center" shadow="hover">
+      <el-main>
+        <el-card body-style="max-width:1000px" align="center" class="box-card main-card">
           <router-view/>
         </el-card>
       </el-main>
@@ -34,5 +34,18 @@ export default {
   position: fixed;
   width: 100%;
   height: 100%;
+}
+
+.box-card {
+  width: 880px;
+}
+
+.main-card {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  margin: auto;
 }
 </style>
